@@ -1,0 +1,61 @@
+@DSW_3P_PR01_HostAddress = http://localhost:5069
+
+### Obtener todas las misiones
+GET {{DSW_3P_PR01_HostAddress}}/api/misiones
+Accept: application/json
+
+### Consultar una misión existente
+GET {{DSW_3P_PR01_HostAddress}}/api/misiones/1
+Accept: application/json
+
+### Consultar una misión inexistente (404)
+GET {{DSW_3P_PR01_HostAddress}}/api/misiones/999
+Accept: application/json
+
+### Registrar una misión
+POST {{DSW_3P_PR01_HostAddress}}/api/misiones
+Content-Type: application/json
+
+{
+  "nombre": "Explorar la cueva",
+  "dificultad": "Media",
+  "recompensaXP": 100
+}
+
+### Registrar una misión con dificultad inválida (400)
+POST {{DSW_3P_PR01_HostAddress}}/api/misiones
+Content-Type: application/json
+
+{
+  "nombre": "Misión inválida",
+  "dificultad": "Extrema",
+  "recompensaXP": 25
+}
+
+### Actualizar una misión existente
+PUT {{DSW_3P_PR01_HostAddress}}/api/misiones/1
+Content-Type: application/json
+
+{
+  "nombre": "Explorar la cueva",
+  "dificultad": "Difícil",
+  "recompensaXP": 150,
+  "completada": true
+}
+
+### Actualizar una misión inexistente (404)
+PUT {{DSW_3P_PR01_HostAddress}}/api/misiones/999
+Content-Type: application/json
+
+{
+  "nombre": "Misión que no existe",
+  "dificultad": "Fácil",
+  "recompensaXP": 0,
+  "completada": false
+}
+
+### Eliminar una misión existente
+DELETE {{DSW_3P_PR01_HostAddress}}/api/misiones/1
+
+### Eliminar una misión inexistente (404)
+DELETE {{DSW_3P_PR01_HostAddress}}/api/misiones/999
