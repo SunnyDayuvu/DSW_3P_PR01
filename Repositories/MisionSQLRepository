@@ -1,0 +1,55 @@
+using DSW_3P_PR01.Data;
+using DSW_3P_PR01.Models;
+
+namespace DSW_3P_PR01.Repositories;
+
+public class MisionSQLRepository : IMisionRepository
+{
+    private readonly AppDbContext _context;
+
+    public MisionSQLRepository(AppDbContext context)
+    {
+        _context = context;
+    }
+
+    public List<Mision> ObtenerTodas()
+    {
+        return _context.Misiones.ToList();
+    }
+
+    public Mision? ObtenerPorId(int id)
+    {
+        return _context.Misiones.FirstOrDefault(m => m.Id == id);
+    }
+
+    public Mision Agregar(Mision mision)
+    {
+        _context.Misiones.Add(mision);
+        _context.SaveChanges();
+        return mision;
+    }
+
+    public bool Actualizar(int id, Mision mision)
+    {
+        var existente = _context.Misiones.FirstOrDefault(m => m.Id == id);
+        if (existente is null) return false;
+
+        existente.Nombre = mision.Nombre;
+        existente.Dificultad = mision.Dificultad;
+        existente.RecompensaXP = mision.RecompensaXP;
+        existente.Completada = mision.Completada;
+
+        _context.SaveChanges();
+        return true;
+    }
+
+    public bool Eliminar(int id)
+    {
+        var mision = _context.Misiones.FirstOrDefault(m => m.Id == id);
+        if (mision is null) return false;
+
+        _context.Misiones.Remove(mision);
+        _context.SaveChanges();
+        return true;
+    }
+}
